@@ -67,18 +67,15 @@ class TicketById(Resource):
 
             return response
 
-        def delete (self, id):
+    def delete(self, id): 
+        ticket = User.query.get(id)
 
-            delete_ticket = User.query.filter_by(id=id).first()
-            if delete_ticket:
-                all_delete_ticket = User.query.filter_by(id=id).all()
-                db.session.delete(delete_ticket)
-                for delete_ticket in all_delete_ticket:
-                    db.session.delete(delete_ticket)
-                db.session.commit()
-                return make_response({}, 200)
-            else:
-                return make_response({"error":"Ticket not found"}, 400)
+        if ticket:
+            db.session.delete(ticket)
+            db.session.commit()
+            return make_response({"Ticket deleted successfully"}, 200)
+        else:
+            return make_response({"error": "Ticket not found"}, 404)
 
 api.add_resource(TicketById, '/tickets/<int:id>')
 
