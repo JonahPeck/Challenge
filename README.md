@@ -15,3 +15,4 @@ Please deploy your completed exercise to the web somewhere (using Vercel or simi
 Note: For sake of time, the app does not need to send email. Please output via logging instead, “Would normally send email here with body: …”
 
 You should attempt to complete this in less than 5 hours of dedicated time and submit the completed exercise as a github repo URL to Kyle (kyle@getzealthy.com), Zoe (zoe@getzealthy.com) and Shanti (shantibraford@gmail.com). You may complete this in one or more sittings, and should do so within a few days of receiving the exercise prompt.  -->
+
