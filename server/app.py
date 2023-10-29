@@ -1,6 +1,7 @@
 from flask import Flask, request, make_response, jsonify
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
+from flask_cors import CORS
 from models import db, User
 
 
@@ -13,6 +14,7 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 api = Api(app)
+CORS(app)
 
 class AllTickets(Resource):
     def get(self):
@@ -23,11 +25,12 @@ class AllTickets(Resource):
         )
         return response
     def post(self):
+        data = request.get_json()
         new_ticket = User(
-            name = request.form['name'],
-            email = request.form['email'],
-            description = request.form['description'],
-            status = request.form['status']
+            name = data['name'],
+            email = data['email'],
+            description = data['description'],
+            # status = data['status']
         )
         db.session.add(new_ticket)
         db.session.commit()
