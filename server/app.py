@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_cors import CORS
 from models import db, User
+from email import notify_admin_of_ticket_create
 
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ api = Api(app)
 CORS(app)
 
 class AllTickets(Resource):
+
     def get(self):
         response_dict_list = [n.to_dict() for n in User.query.all()]
         response = make_response(
@@ -24,17 +26,23 @@ class AllTickets(Resource):
             200,
         )
         return response
+
+
     def post(self):
         data = request.get_json()
-        new_ticket = User(
-            name = data['name'],
-            email = data['email'],
-            description = data['description'],
-            # status = data['status']
-        )
+        try:
+            new_ticket = User(
+                name = data['name'],
+                email = data['email'],
+                description = data['description'],
+                # status = data['status']
+            )
+        except ValueError as e:
+            return make_response({"error": str(e)}, 400)
+
         db.session.add(new_ticket)
         db.session.commit()
-
+        notify_admin_of_ticket_create()
         response_dict = new_ticket.to_dict()
         response = make_response(
             response_dict,
@@ -43,6 +51,7 @@ class AllTickets(Resource):
         return response
     
 api.add_resource(AllTickets,'/tickets')
+
 
 class TicketById(Resource):
     def get(self, id):
@@ -83,7 +92,7 @@ class TicketById(Resource):
 api.add_resource(TicketById, '/tickets/<int:id>')
 
 if __name__ == '__main__':
-    app.run(port=5555)
+    app.run(port=5000)
 
 
 

@@ -28,6 +28,41 @@
   color: #61dafb;
 }
 
+.formContainerStyle  {
+  border: 2px solid #007BFF;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+};
+
+.inputStyle  {
+  width: 75%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  vertical-align: top;
+};
+
+.buttonStyle  {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+};
+
+.descriptionBox {
+  width: 75%;
+  height: 100px;
+  padding: 25px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  vertical-align: top;
+};
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
