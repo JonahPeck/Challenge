@@ -18,6 +18,7 @@ class Ticket(db.Model, SerializerMixin):
     title = db.Column(db.String)
     submitted_by = db.Column(db.String)
     description = db.Column(db.String)
+    response = db.Column(db.String)
     status = db.Column(db.Enum(StatusEnum), server_default=StatusEnum.new)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
