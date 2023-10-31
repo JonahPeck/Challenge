@@ -6,10 +6,10 @@ from sqlalchemy.orm import validates
 
 db = SQLAlchemy()
 
-class StatusEnum(enum.Enum):
-    new = 1
-    in_progress = 2
-    resolved = 3
+# class StatusEnum(enum.Enum):
+#     new = 1
+#     in_progress = 2
+#     resolved = 3
 
 class Ticket(db.Model, SerializerMixin):
     __tablename__ = 'usertickets'
@@ -19,24 +19,24 @@ class Ticket(db.Model, SerializerMixin):
     submitted_by = db.Column(db.String)
     description = db.Column(db.String)
     response = db.Column(db.String)
-    status = db.Column(db.Enum(StatusEnum), server_default=StatusEnum.new)
+    status = db.Column(db.String, server_default="New")
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
     @validates('submitted_by')
-    def validate_submitted_by(self, submitted_by):
+    def validate_submitted_by(self, key, submitted_by):
         if "@" in submitted_by and not None:
             return submitted_by
         else:
-            raise Exception("Not a Valid Email input)
+            raise Exception("Not a Valid Email input")
 
     @validates('title')
-    def validate_title(self, title):
+    def validate_title(self, key, title):
         if title is None or title == "":
             raise ValueError("Name must be provided.")
         return title
 
     @validates('description')
-    def check_description(self, description):
+    def check_description(self, key, description):
         if description is None or description == "":
             raise ValueError("Description must be provided.")
         return description

@@ -2,8 +2,8 @@ from flask import Flask, request, make_response, jsonify
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_cors import CORS
-from models import db, User
-from email import notify_admin_of_ticket_create
+from models import db, Ticket
+# from email import notify_admin_of_ticket_create
 
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ CORS(app)
 class AllTickets(Resource):
 
     def get(self):
-        response_dict_list = [n.to_dict() for n in User.query.all()]
+        response_dict_list = [n.to_dict() for n in Ticket.query.all()]
         response = make_response(
             response_dict_list,
             200,
@@ -31,11 +31,12 @@ class AllTickets(Resource):
     def post(self):
         data = request.get_json()
         try:
-            new_ticket = User(
-                name = data['name'],
-                email = data['email'],
+            new_ticket = Ticket(
+                title = data['name'],
+                submitted_by = data['email'],
                 description = data['description'],
-                # status = data['status']
+                # status = data['status'],
+                # response = data['response'],
             )
         except ValueError as e:
             return make_response({"error": str(e)}, 400)
@@ -55,7 +56,7 @@ api.add_resource(AllTickets,'/tickets')
 
 class TicketById(Resource):
     def get(self, id):
-        response_dict = User.query.filter_by(id=id).first().to_dict()
+        response_dict = Ticker.query.filter_by(id=id).first().to_dict()
 
         response = make_response(
             response_dict,
@@ -64,7 +65,7 @@ class TicketById(Resource):
         return response
 
     def patch(self, id):
-        record = User.query.filter(User.id == id).first()
+        record = Ticket.query.filter(Ticket.id == id).first()
         for attr in request.form:
             setattr(record, attr, request.form[attr])
             
@@ -80,7 +81,7 @@ class TicketById(Resource):
             return response
 
     def delete(self, id): 
-        ticket = User.query.get(id)
+        ticket = Ticket.query.get(id)
 
         if ticket:
             db.session.delete(ticket)
