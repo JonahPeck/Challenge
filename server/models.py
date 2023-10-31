@@ -6,36 +6,33 @@ from sqlalchemy.orm import validates
 
 db = SQLAlchemy()
 
-class StatusEnum(enum.Enum):
-    new = 1
-    in_progress = 2
-    resolved = 3
 
-class Ticket(db.Model, SerializerMixin):
+class User(db.Model, SerializerMixin):
     __tablename__ = 'usertickets'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String)
-    submitted_by = db.Column(db.String)
+    name = db.Column(db.String)
+    email = db.Column(db.String)
     description = db.Column(db.String)
-    status = db.Column(db.Enum(StatusEnum), server_default=StatusEnum.new)
+    response = db.Column(db.String)
+    status = db.Column(db.String, server_default="New")
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    @validates('submitted_by')
-    def validate_submitted_by(self, submitted_by):
-        if "@" in submitted_by and not None:
-            return submitted_by
+    @validates('email')
+    def validate_email(self, key, email):
+        if "@" in email and not None:
+            return email
         else:
-            raise Exception("Not a Valid Email input)
+            raise Exception("Not a Valid Email input")
 
-    @validates('title')
-    def validate_title(self, title):
-        if title is None or title == "":
+    @validates('name')
+    def validate_title(self, key, name):
+        if name is None or name == "":
             raise ValueError("Name must be provided.")
-        return title
+        return name
 
     @validates('description')
-    def check_description(self, description):
+    def check_description(self, key, description):
         if description is None or description == "":
             raise ValueError("Description must be provided.")
         return description

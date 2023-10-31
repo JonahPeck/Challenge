@@ -3,7 +3,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_cors import CORS
 from models import db, User
-from email import notify_admin_of_ticket_create
+# from email import notify_admin_of_ticket_create
 
 
 app = Flask(__name__)
@@ -42,7 +42,7 @@ class AllTickets(Resource):
 
         db.session.add(new_ticket)
         db.session.commit()
-        notify_admin_of_ticket_create()
+        # notify_admin_of_ticket_create()
         response_dict = new_ticket.to_dict()
         response = make_response(
             response_dict,

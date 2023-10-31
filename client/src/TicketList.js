@@ -6,7 +6,7 @@ function TicketList() {
     const [ticket, setTicket] = useState([]);
 
     useEffect(() => {
-    fetch('http://127.0.0.1:5555/tickets')
+    fetch('http://127.0.0.1:5000/tickets')
         .then((response) => response.json())
         .then((data) => setTicket(data))
         .catch((error) => console.error('Error fetching tickets:', error));
@@ -14,7 +14,7 @@ function TicketList() {
 
     // const openTicket = async () => {
     //     try {
-    //     const response = await fetch('http://127.0.0.1:5555/tickets', {
+    //     const response = await fetch('http://127.0.0.1:5000/tickets', {
     //         method: 'GET',
     //         headers: {
     //         'Content-Type': 'application/json',
