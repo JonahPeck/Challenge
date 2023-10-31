@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import TicketList from './TicketList';
 import CreateTicketForm from './components/CreateTicketForm';
 import AllTickets from './components/AllTickets';
-
+import Modals from './components/Modals';
 
 
 
@@ -18,7 +18,7 @@ return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<CreateTicketForm/>}/> 
-          <Route path ="/tickets" element={<AllTickets/>}/>          
+          <Route path ="/tickets" element={<AllTickets/>}/> 
         </Routes>
       </BrowserRouter>
       </header>
