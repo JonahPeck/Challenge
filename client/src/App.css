@@ -33,7 +33,7 @@
   padding: 20px;
   margin: 20px;
   border-radius: 10px;
-};
+}
 
 .inputStyle  {
   width: 75%;
@@ -43,7 +43,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   vertical-align: top;
-};
+}
 
 .buttonStyle  {
   background-color: #007BFF;
@@ -52,7 +52,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-};
+}
 
 .descriptionBox {
   width: 75%;
@@ -62,7 +62,34 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   vertical-align: top;
-};
+}
+/* Styling for the select element */
+.select {
+  width: 50%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  color: #333;
+  cursor: pointer;
+  appearance: none; /* Remove default browser styles */
+  outline: none; /* Remove focus outline */
+}
+
+/* Styling for the select options */
+.select option {
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+}
+
+/* Styling when the select is focused (clicked on) */
+.select:focus {
+  border-color: #007BFF; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle box shadow */
+}
+
 
 @keyframes App-logo-spin {
   from {

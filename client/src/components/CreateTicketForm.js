@@ -1,83 +1,116 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+function CreateTicketForm() {
+  let navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [createdBy, setCreatedBy] = useState('');
+  const [description, setDescription] = useState('');
 
-function CreateTicketForm (){
-    
-    let navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [description, setDescription] = useState('')
+  const handlePostRequest = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/tickets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title,
+          created_by: createdBy,
+          description: description,
+        }),
+      });
+      if (response.ok) {
+        console.log("Ticket Successfully created and posted to Admin.");
+      } else {
+        console.log("Ticket not successful");
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
 
-
-    const handlePostRequest = async () => {
-        try {
-            const response = await fetch('http://127.0.0.1:5000/tickets',{
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                name: name,
-                email: email,
-                description: description,
-                
-                
-                }),
-            });
-            if (response.ok) {
-                console.log("Ticket Successfully created and posted to Admin.")
-            } else{
-                console.log("Ticket not successful")
-            }
-        } catch (error) {
-            console.error('An error occured:', error);
-        }
-
-    };
-
-    
-    return (
-        <>
-            <p>Welcome to HelpDesk Ticket Manager</p>
-            <div className={"formContainerStyle"}>
-                <div>    
-                    <input
-                        type = "text"
-                        placeholder='Name'
-                        value = {name}
-                        onChange = {(e) => setName(e.target.value)}
-                        className={"inputStyle"}
-                    />
-                    <input
-                        type = "text"
-                        placeholder='Email'
-                        value = {email}
-                        onChange = {(e) => setEmail(e.target.value)}
-                        className={"inputStyle"}
-                    />
-                    <input
-                        type = "text"
-                        placeholder='text area'
-                        value = {description}
-                        onChange = {(e) => setDescription(e.target.value)}
-                        className={"descriptionBox"}
-                    />
-                </div>
-            </div>
-            <button 
-            className = {"buttonStyle"}
-            onClick={handlePostRequest}
-            >Create New Ticket
-            </button>
-            <button 
-            className = {"buttonStyle"}
-            onClick={()=> navigate("/tickets")}
-            >View All Tickets
-            </button>
-            </>
-      );
+  return (
+    <div style={styles.container}>
+      <p style={styles.heading}>Welcome to HelpDesk Ticket Manager</p>
+      <div style={styles.formContainer}>
+        <input
+          type="text"
+          placeholder='Title'
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          style={styles.inputStyle}
+        />
+        <input
+          type="text"
+          placeholder='Email'
+          value={createdBy}
+          onChange={(e) => setCreatedBy(e.target.value)}
+          style={styles.inputStyle}
+        />
+        <input
+          type="text"
+          placeholder='Description'
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          style={styles.descriptionBox}
+        />
+      </div>
+      <button
+        style={styles.buttonStyle}
+        onClick={handlePostRequest}
+      >
+        Create New Ticket
+      </button>
+      <button
+        style={styles.buttonStyle}
+        onClick={() => navigate("/tickets")}
+      >
+        View All Tickets
+      </button>
+    </div>
+  );
 }
+
+const styles = {
+  container: {
+    textAlign: 'center',
+    paddingTop: '20px',
+  },
+  heading: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  inputStyle: {
+    width: '300px',
+    height: '30px',
+    margin: '10px 0',
+    padding: '5px',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+  },
+  descriptionBox: {
+    width: '300px',
+    height: '100px',
+    margin: '10px 0',
+    padding: '5px',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+  },
+  buttonStyle: {
+    backgroundColor: '#007BFF',
+    color: 'white',
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '5px',
+    margin: '10px',
+    cursor: 'pointer',
+  },
+};
 
 export default CreateTicketForm;
