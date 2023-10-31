@@ -40,7 +40,7 @@ function CreateTicketForm (){
     
     return (
         <>
-            <p>Welcome to HelpDesk Ticket Management</p>
+            <p>Welcome to HelpDesk Ticket Manager</p>
             <div className={"formContainerStyle"}>
                 <div>    
                     <input

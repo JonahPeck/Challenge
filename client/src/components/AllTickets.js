@@ -8,10 +8,13 @@ import { Button, Modal } from 'react-bootstrap';
 
 
 
+
 function AllTickets() {
     const navigate = useNavigate();
     const [tickets, setTickets] = useState([]);
     const [expandedTicket, setExpandedTicket] = useState(null);
+    const [status, setStatus] = useState('')
+    const [response, setResponse] = useState('')
   
     const handleGetTickets = async () => {
       try {
@@ -40,16 +43,39 @@ function AllTickets() {
         setExpandedTicket(ticket);
       }
     };
-  
-    const handleStatusChange = (ticket, newStatus) => {
-      // You can implement an API call here to update the ticket's status on the server
-      // After that, you can update the status in the local state if needed
-      console.log(`Status of ${ticket.name} changed to ${newStatus}`);
-    };
-  
+    
     useEffect(() => {
       handleGetTickets();
     }, []);
+    const handleStatusChange = async (id, response, status) => {
+      try {
+          const answer = await fetch(`http://127.0.0.1:5000/tickets/${id}`,{
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              response: expandedTicket.response,
+              status: expandedTicket.status,
+            }),
+          });
+          if (answer.ok) {
+            const responseData = await answer.json();
+            console.log("Ticket successfully updated.");
+            console.log("Response: ", responseData);
+          } else{
+            console.log("Ticket update not successful");
+          }
+        } catch (error) {
+        console.error('An error occurred:', error);
+
+      }
+      // You can implement an API call here to update the ticket's status on the server
+      // After that, you can update the status in the local state if needed
+    
+      console.log(`Status of ${response} changed to ${setResponse}`);
+    };
+  
   
     return (
       <>
@@ -75,7 +101,8 @@ function AllTickets() {
                     >
                       {ticket_user.name}
                     </td>
-                    <td>
+                    <td>{ticket_user.status}</td>
+                    {/* <td>
                       {expandedTicket === ticket_user ? (
                         <select
                           value={ticket_user.status}
@@ -88,19 +115,39 @@ function AllTickets() {
                       ) : (
                         ticket_user.status
                       )}
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
             </tbody>
           </table>
           {expandedTicket && (
             <div>
-              <h3>Expanded Ticket Information</h3>
-              <p>Name: {expandedTicket.name}</p>
-              <p>
-                Status: {expandedTicket.status}
-              </p>
+              <h3>{expandedTicket.name}'s Ticket</h3>
+              <h5>
+              Status:
+                <select
+                value = {status}
+                onChange = {(e) => setStatus(e.target.value)}
+                >
+                <option value="New">New</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+                {expandedTicket.status}
+                </select>
+              </h5>
+                <h5>Issue Needing Resolve: {expandedTicket.description}</h5>
               {/* Add more items as needed */}
+              <input
+              type = "text"
+              onChange = {(e) => setResponse(e.target.value)}
+              placeholder='Resolution'
+              className = {"inputStyle"}
+              value = {response}
+              >{expandTicket.response}</input>
+              <button
+              onClick = {() => handleStatusChange(expandedTicket.id)}
+              >Save Changes
+              </button>
             </div>
           )}
         </div>
