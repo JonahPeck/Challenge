@@ -10,7 +10,7 @@ function CreateTicketForm() {
 
   const handlePostRequest = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/tickets', {
+      const response = await fetch('https://flask-jonah-174425889a32.herokuapp.com/tickets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

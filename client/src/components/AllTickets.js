@@ -11,7 +11,7 @@ function AllTickets() {
   
     const handleGetTickets = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:5000/tickets', {
+            const response = await fetch('https://flask-jonah-174425889a32.herokuapp.com/tickets', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function AllTickets() {
 
     const handleStatusChange = async (id, response, status) => {
         try {
-            const answer = await fetch(`http://127.0.0.1:5000/tickets/${id}`,{
+            const answer = await fetch(`https://flask-jonah-174425889a32.herokuapp.com/tickets/${id}`,{
                 method: 'PATCH',
                 headers: {
                   'Content-Type': 'application/json',
